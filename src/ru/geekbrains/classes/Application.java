@@ -29,5 +29,6 @@ public class Application {
         course.doIt(team);
 
         team.showResults();
+        team.showWinners();
     }
 }

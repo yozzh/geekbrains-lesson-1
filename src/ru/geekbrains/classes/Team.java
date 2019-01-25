@@ -2,10 +2,12 @@ package ru.geekbrains.classes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Team {
     private String name;
-    private ArrayList<Participant> participants;
+    private List<Participant> participants;
 
     public Team(String name, Participant[] participants) {
         this.name = name;
@@ -17,7 +19,7 @@ public class Team {
         return name;
     }
 
-    public ArrayList<Participant> getParticipants() {
+    public List<Participant> getParticipants() {
         return participants;
     }
 
@@ -25,10 +27,20 @@ public class Team {
         participants.add(participant);
     }
 
-    public void showResults() {
-        System.out.println("Here is the status of \"" + name + "\" team");
+    private void printResults(List<Participant> participants) {
         for (Participant participant : participants) {
             System.out.println(participant);
         }
+        System.out.println();
+    }
+
+    public void showResults() {
+        System.out.println("Here is the status of \"" + name + "\" team");
+        printResults(participants);
+    }
+
+    public void showWinners() {
+        System.out.println("Here is winners of the last course");
+        printResults(participants.stream().filter(Participant::isOnCourse).collect(Collectors.toList()));
     }
 }
