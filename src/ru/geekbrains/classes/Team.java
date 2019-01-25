@@ -9,9 +9,9 @@ public class Team {
     private String name;
     private List<Participant> participants;
 
-    public Team(String name, Participant[] participants) {
+    public Team(String name, Participant... participants) {
         this.name = name;
-        this.participants = new ArrayList<>(Arrays.asList(participants));
+        this.participants = Arrays.asList(participants);
     }
 
     public String getName() {

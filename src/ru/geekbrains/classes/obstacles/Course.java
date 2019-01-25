@@ -3,17 +3,17 @@ package ru.geekbrains.classes.obstacles;
 import ru.geekbrains.classes.Participant;
 import ru.geekbrains.classes.Team;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Course {
-    private ArrayList<Obstacle> obstacles;
+    private List<Obstacle> obstacles;
 
-    public Course(Obstacle[] obstacles) {
-        this.obstacles = new ArrayList<Obstacle>(Arrays.asList(obstacles));
+    public Course(Obstacle... obstacles) {
+        this.obstacles = Arrays.asList(obstacles);
     }
 
-    public ArrayList<Obstacle> getObstacles() {
+    public List<Obstacle> getObstacles() {
         return obstacles;
     }
 
