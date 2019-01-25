@@ -2,6 +2,8 @@ package ru.geekbrains.classes.robots;
 
 import ru.geekbrains.classes.Participant;
 
+import static java.lang.System.*;
+
 public class Robot implements Participant {
     private String name;
     private boolean onDistance;
@@ -21,16 +23,16 @@ public class Robot implements Participant {
         return name;
     }
 
-    public boolean isOnDistance() {
+    public boolean isOnCourse() {
         return onDistance;
     }
 
     @Override
     public void run(int distance) {
         if (distance <= maxRunDistance) {
-            System.out.println(name + " succeed ran through it");
+            out.println(name + " succeed ran through it");
         } else {
-            System.out.println(name + " failed with run through it");
+            out.println(name + " failed with run through it");
             this.onDistance = false;
         }
     }
@@ -38,9 +40,9 @@ public class Robot implements Participant {
     @Override
     public void jump(int distance) {
         if (distance <= maxJumpHeight) {
-            System.out.println(name + " succeed jump over it");
+            out.println(name + " succeed jump over it");
         } else {
-            System.out.println(name + " failed with jump over it");
+            out.println(name + " failed with jump over it");
             this.onDistance = false;
         }
     }
@@ -48,18 +50,18 @@ public class Robot implements Participant {
     @Override
     public void swim(int distance) {
         if (maxSwimDistance == 0) {
-            System.out.println(name + " can't swim");
+            out.println(name + " can't swim");
         }
         if (distance <= maxSwimDistance) {
-            System.out.println(name + " succeed swam the distance");
+            out.println(name + " succeed swam the distance");
         } else {
-            System.out.println(name + " failed with smiw the distance");
+            out.println(name + " failed with smiw the distance");
             this.onDistance = false;
         }
     }
 
     @Override
     public String toString() {
-        return name + (isOnDistance() ? " is on distance" : " is not on distance");
+        return name + (isOnCourse() ? " is on a course" : " is not on a course");
     }
 }
