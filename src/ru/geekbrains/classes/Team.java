@@ -11,8 +11,7 @@ public class Team {
 
     public Team(String name, Participant[] participants) {
         this.name = name;
-        this.participants = new ArrayList<>();
-        this.participants.addAll(Arrays.asList(participants));
+        this.participants = new ArrayList<>(Arrays.asList(participants));
     }
 
     public String getName() {

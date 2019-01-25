@@ -10,8 +10,7 @@ public class Course {
     private ArrayList<Obstacle> obstacles;
 
     public Course(Obstacle[] obstacles) {
-        this.obstacles = new ArrayList<Obstacle>();
-        this.obstacles.addAll(Arrays.asList(obstacles));
+        this.obstacles = new ArrayList<Obstacle>(Arrays.asList(obstacles));
     }
 
     public ArrayList<Obstacle> getObstacles() {
