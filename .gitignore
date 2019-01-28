@@ -1,2 +1,4 @@
 /out
 /.idea
+/mockups/*
+!/mockups/*.example.json
