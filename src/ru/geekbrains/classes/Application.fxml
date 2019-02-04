@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml"
+          prefHeight="600" prefWidth="300" maxHeight="Infinity" maxWidth="Infinity"
+          fx:controller="ru.geekbrains.classes.Controller"
+          onKeyReleased="#stageKeyReleased"
+>
+    <VBox GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS">
+        <HBox VBox.vgrow="ALWAYS" GridPane.hgrow="ALWAYS">
+            <ListView HBox.hgrow="ALWAYS" fx:id="listView" mouseTransparent="true" focusTraversable="false"/>
+        </HBox>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <TextField
+                fx:id="text"
+                HBox.hgrow="ALWAYS"
+                promptText="Enter your chatMessage here.."
+                onKeyReleased="#textFieldKeyReleased"
+            />
+            <Button fx:id="sendButton" text="Send" onAction="#sendButtonAction" disable="true"/>
+        </HBox>
+    </VBox>
+</GridPane>
