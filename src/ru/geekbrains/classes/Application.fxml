@@ -21,7 +21,7 @@
             <TextField
                 fx:id="text"
                 HBox.hgrow="ALWAYS"
-                promptText="Enter your chatMessage here.."
+                promptText="Enter your chat message here.."
                 onKeyReleased="#textFieldKeyReleased"
             />
             <Button fx:id="sendButton" text="Send" onAction="#sendButtonAction" disable="true"/>
