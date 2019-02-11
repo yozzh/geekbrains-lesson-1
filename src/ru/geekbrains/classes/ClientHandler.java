@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Logger;
 
-public class Handler extends Thread {
+public class ClientHandler extends Thread {
     private final Logger log;
     private Socket socket;
     private Server server;
@@ -15,8 +15,8 @@ public class Handler extends Thread {
     private DataInputStream in;
     private DataOutputStream out;
 
-    Handler(Server server, Socket socket) throws IOException {
-        log = Logger.getLogger("Handler");
+    ClientHandler(Server server, Socket socket) throws IOException {
+        log = Logger.getLogger("ClientHandler");
         this.server = server;
         this.socket = socket;
     }
@@ -28,21 +28,26 @@ public class Handler extends Thread {
             out = new DataOutputStream(socket.getOutputStream());
 
             while (true) {
-                out.writeUTF(MessageType.GET_NAME.toString());
-                this.setUsername(in.readUTF());
+                this.sendMessage(new ChatMessageContainer(
+                    MessageType.GET_NAME
+                ));
+                ChatMessageContainer userMessage = ChatMessageContainer.createFromString(in.readUTF());
+                this.setUsername(userMessage.getContent());
                 break;
             }
 
-            out.writeUTF(MessageType.READY_FOR_MESSAGING.toString());
+            this.sendMessage(new ChatMessageContainer(
+                MessageType.READY_FOR_MESSAGING
+            ));
 
             while (true) {
-                String message = in.readUTF();
-                if (message.equals("")) {
+                ChatMessageContainer message = ChatMessageContainer.createFromString(in.readUTF());
+                if (message.isEmpty()) {
                     return;
                 }
-                log.info("Message received!");
+                log.info("Message from client received!");
 
-                server.sendUserMessage(username, message);
+                server.sendUserMessage(username, message.getContent());
             }
         } catch (EOFException e) {
             server.removeUser(username, out);
@@ -58,4 +63,7 @@ public class Handler extends Thread {
         server.addUser(this.username, this.out);
     }
 
+    void sendMessage(ChatMessageContainer message) throws IOException {
+        out.writeUTF(message.toString());
+    }
 }

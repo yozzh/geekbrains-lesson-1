@@ -9,27 +9,18 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Logger;
 
-public class Server {
+class Server {
     private final ServerSocket listener;
     private final Logger log;
     private static Set<String> names = new HashSet<>();
     private static Set<DataOutputStream> clients = new HashSet<>();
 
-    public Server(int port) throws IOException {
+    Server(int port) throws IOException {
         listener = new ServerSocket(port);
         log = Logger.getLogger("Server");
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                try {
-                    listener.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
-    public void start() throws IOException {
+    void start() throws IOException {
         log.info("Server successful started!");
         new Thread(new Runnable() {
             @Override
@@ -48,11 +39,11 @@ public class Server {
 
         while (true) {
             Socket socket = this.getListener().accept();
-            new Handler(this, socket).start();
+            new ClientHandler(this, socket).start();
         }
     }
 
-    public ServerSocket getListener() {
+    private ServerSocket getListener() {
         return this.listener;
     }
 
@@ -70,16 +61,25 @@ public class Server {
         log.info("User has been disconnected: " + name);
     }
 
-    void sendUserMessage(String username, String message) throws IOException {
-        String formattedMessage = String.format("%s\t{%s}: %s", MessageType.MESSAGE.toString(), username, message);
+    private String getMessageString(String username, String messageText) {
+        ChatMessageContainer message = new ChatMessageContainer(
+                MessageType.MESSAGE,
+                String.format("{%s}: %s", username, messageText)
+        );
+        return message.toString();
+    }
+
+    private void sendServerMessage(String messageText) throws IOException {
+        String formattedMessage = getMessageString("SERVER", messageText);
         for (DataOutputStream client : clients) {
             client.writeUTF(formattedMessage);
             client.flush();
         }
+        log.info("Server message was sent.");
     }
 
-    void sendServerMessage(String message) throws IOException {
-        String formattedMessage = String.format("%s\t{SERVER}: %s", MessageType.MESSAGE.toString(), message);
+    void sendUserMessage(String username, String messageText) throws IOException {
+        String formattedMessage = getMessageString(username, messageText);
         for (DataOutputStream client : clients) {
             client.writeUTF(formattedMessage);
             client.flush();
